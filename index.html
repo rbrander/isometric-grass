@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Tile Test</title>
+  <!-- <script type="text/javascript" src="tiletest.js"></script> -->
+  <style type='text/css'>
+  img { position: absolute; }
+  body{ margin: 0px; }
+  </style>
+</head>
+<body>
+  <script type="text/javascript">
+    var container = document.getElementById('container');
+
+    var images = [];
+    var imgSize = { width: 100, height: 50 };
+
+    var i = 0;
+    var offset = 50;
+    var numX = ~~(window.innerWidth / imgSize.width) + 2;
+    var numY = (~~(window.innerHeight / imgSize.height) + 2) * 2;
+    for (var y = 0; y < numY; y++) {
+      for (var x = 0; x < numX; x++) {
+        var _img = new Image();
+        _img.src = 'grass.png';
+        var xPos = x * imgSize.width + (y % 2 === 1 ? ~~(imgSize.width / 2) : 0) - offset;
+        var yPos = y * (imgSize.height / 2) - offset;
+        _img.style = "top: " + yPos + "px; left: " + xPos + "px;";
+        _img.class = JSON.stringify([
+          (yPos - 20).toString()+'px',
+          yPos.toString()+'px'
+        ]);
+        _img.onmouseover = function(e) {
+          e.target.style.top = JSON.parse(e.target.class)[0];
+        }
+        _img.onmouseout = function(e) {
+          e.target.style.top = JSON.parse(e.target.class)[1];
+        }
+        images.push(_img);
+        setTimeout(function(img) {
+          document.body.appendChild(img);          
+        }.bind(null, _img), i)
+      }
+    }
+  </script>
+</body>
+</html>
